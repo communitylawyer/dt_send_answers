@@ -1,7 +1,12 @@
+import docassemble.base.functions
+import docassemble.base.core
 import requests
 import json
 
-def send_answers(answers, metadata, endpoint):
+def send_answers():
+  endpoint = get_config("answer endpoint")
+  answers = all_variables(simplify=False)
+
   for q, a in answers.items():
     if isinstance(a, DAFileList):
       s3_config = get_config('s3')
@@ -11,10 +16,8 @@ def send_answers(answers, metadata, endpoint):
         answers[q] = "s3://%s/%s" % (bucket_name, local_path)
       else:
         answers[q] = local_path
-  answers = json.dumps(answers, default=lambda x: str(x))
-  metadata = json.dumps(metadata, default=lambda x: str(x))
-  blank_string = ""
-  r = requests.post(user_endpoint, data={'answers': answers, 'metadata': metadata})
 
-def hello_world():
-  return "hello world"
+  answers = json.dumps(answers, default=lambda x: str(x))
+  metadata = json.dumps(all_variables(special='metadata'), default=lambda x: str(x))
+
+  return requests.post(endpoint, data={'answers': answers, 'metadata': metadata})
