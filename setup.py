@@ -8,11 +8,11 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
   name='dt_send_answers',
-  version='0.0.3',
+  version='0.0.6',
   description='Code to help Docassemble Toolkit users store answers to their interviews',
   url='https://github.com/communitylawyer/dt_send_answers',
   author='Community.lawyer, PBC',
   author_email='hello@community.lawyer',
   license='MIT',
-  packages=find_packages(),  
+  py_modules=['dt_send_answers']
 )
