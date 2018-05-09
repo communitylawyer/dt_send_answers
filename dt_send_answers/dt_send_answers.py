@@ -15,3 +15,6 @@ def send_answers(answers, metadata, endpoint):
   metadata = json.dumps(metadata, default=lambda x: str(x))
   blank_string = ""
   r = requests.post(user_endpoint, data={'answers': answers, 'metadata': metadata})
+
+def hello_world()
+  return "hello world"
