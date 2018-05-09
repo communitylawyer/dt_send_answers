@@ -16,5 +16,5 @@ def send_answers(answers, metadata, endpoint):
   blank_string = ""
   r = requests.post(user_endpoint, data={'answers': answers, 'metadata': metadata})
 
-def hello_world()
+def hello_world():
   return "hello world"
