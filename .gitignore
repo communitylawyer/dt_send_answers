@@ -1,2 +1,5 @@
 # ignore dist
 dist/
+
+# ignore egg info
+dt_send_answers.egg-info/
