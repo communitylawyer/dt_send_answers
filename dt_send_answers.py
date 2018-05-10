@@ -4,11 +4,11 @@ from docassemble.base.functions import get_config, all_variables
 from docassemble.base.core import DAFileList
 
 def send_answers():
-  endpoint = get_config("answer endpoint")
+  endpoint = get_config("answers endpoint")
   answers = all_variables(simplify=False)
 
   for q, a in answers.items():
-    if isinstance(a, DAFileList):
+    if isinstance(a, DAFileList) or isinstance(a, DAFile):
       s3_config = get_config('s3')
       local_path = a.path().replace("/tmp/", "")
       if bool(s3_config):
