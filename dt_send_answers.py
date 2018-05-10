@@ -1,7 +1,7 @@
 import requests
 import json
 from docassemble.base.functions import get_config, all_variables
-from docassemble.base.core import DAFileList
+from docassemble.base.core import DAFileList, DAFile
 
 def send_answers():
   endpoint = get_config("answers endpoint")
