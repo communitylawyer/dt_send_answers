@@ -1,7 +1,7 @@
 import requests
 import json
 from docassemble.base.functions import get_config, all_variables
-from docassemble.base.core import DAFileList, DAFile
+from docassemble.base.core import DAFileList, DAFile, DADict
 
 def send_answers():
   endpoint = get_config("answers endpoint")
@@ -16,6 +16,13 @@ def send_answers():
         answers[q] = "s3://%s/%s" % (bucket_name, local_path)
       else:
         answers[q] = local_path
+  for q, a in answers.items():
+    if isinstance(a, DADict) and type(a.values()[0]) is bool:
+      checked_boxes = []
+      for box_name, box_value in a.items():
+        if box_value is True:
+          checked_boxes.append(box_name)
+      answers[q] = checked_boxes
 
   answers = json.dumps(answers, default=lambda x: str(x))
   metadata = json.dumps(all_variables(special='metadata'), default=lambda x: str(x))
