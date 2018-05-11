@@ -1,6 +1,6 @@
 import requests
 import json
-from docassemble.base.functions import get_config, all_variables
+from docassemble.base.functions import get_config, all_variables, user_info
 from docassemble.base.core import DAFileList, DAFile, DADict
 
 def send_answers():
@@ -26,5 +26,16 @@ def send_answers():
 
   answers = json.dumps(answers, default=lambda x: str(x))
   metadata = json.dumps(all_variables(special='metadata'), default=lambda x: str(x))
+  logged_in_user = json.dumps(get_user_info_hash())
 
-  return requests.post(endpoint, data={'answers': answers, 'metadata': metadata})
+  return requests.post(endpoint, data={'answers': answers, 'metadata': metadata, 'respondent': logged_in_user})
+
+def get_user_info_hash():
+  user_hash = {}
+  user_attributes = ['first_name', 'last_name', 'email', 'country', 'subdivision_first', 'subdivision_second', 'subdivision_third', 'organization']
+  user = user_info()
+  for attribute in user_attributes:
+    value = getattr(user, attribute)
+    if value:
+      user_hash[attribute] = value
+  return user_hash
