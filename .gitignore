@@ -3,3 +3,6 @@ dist/
 
 # ignore egg info
 dt_send_answers.egg-info/
+
+# notes
+notes.txt

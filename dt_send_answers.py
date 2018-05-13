@@ -1,6 +1,6 @@
 import requests
 import json
-from docassemble.base.functions import get_config, all_variables, user_info
+from docassemble.base.functions import get_config, all_variables, user_info, user_logged_in
 from docassemble.base.core import DAFileList, DAFile, DADict
 
 def send_answers():
@@ -32,10 +32,11 @@ def send_answers():
 
 def get_user_info_hash():
   user_hash = {}
-  user_attributes = ['first_name', 'last_name', 'email', 'country', 'subdivision_first', 'subdivision_second', 'subdivision_third', 'organization']
-  user = user_info()
-  for attribute in user_attributes:
-    value = getattr(user, attribute)
-    if value:
-      user_hash[attribute] = value
+  if user_logged_in():
+    user_attributes = ['first_name', 'last_name', 'email', 'country', 'subdivision_first', 'subdivision_second', 'subdivision_third', 'organization']
+    user = user_info()
+    for attribute in user_attributes:
+      value = getattr(user, attribute)
+      if value:
+        user_hash[attribute] = value
   return user_hash
