@@ -4,8 +4,9 @@ from docassemble.base.functions import get_config, all_variables, user_info, use
 from docassemble.base.core import DAFileList, DAFile, DADict
 
 def send_answers():
-  endpoint = get_config("answers endpoint")
+  docassemble_api_key = get_config("docassemble api key")
   answers = all_variables(simplify=False)
+  endpoint = "https://community.lawyer/docassemble_answers/new/"
 
   for q, a in answers.items():
     if isinstance(a, DAFileList) or isinstance(a, DAFile):
@@ -28,7 +29,7 @@ def send_answers():
   metadata = json.dumps(all_variables(special='metadata'), default=lambda x: str(x))
   logged_in_user = json.dumps(get_user_info_hash())
 
-  return requests.post(endpoint, data={'answers': answers, 'metadata': metadata, 'respondent': logged_in_user})
+  return requests.post(endpoint, data={'docassemble_api_key': docassemble_api_key, 'answers': answers, 'metadata': metadata, 'respondent': logged_in_user})
 
 def get_user_info_hash():
   user_hash = {}
