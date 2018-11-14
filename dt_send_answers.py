@@ -31,6 +31,11 @@ def send_answers(variables_to_reject = []):
         if box_value is True:
           checked_boxes.append(box_name)
       answers[q] = checked_boxes
+  for q, a in answers.items():
+    try:
+      json.dumps(a)
+    except:
+      answers[q] = str(a)
 
   answers = json.dumps(answers, default=lambda x: str(x))
   metadata = json.dumps(all_variables(special='metadata'), default=lambda x: str(x))
