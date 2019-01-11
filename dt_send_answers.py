@@ -2,7 +2,7 @@ import requests, json
 from docassemble.base.functions import get_config, all_variables, user_info, user_logged_in
 from docassemble.base.core import DAFileList, DAFile, DADict
 
-def send_answers(variables_to_reject = []):
+def send_answers(variables_to_reject = [], include_logged_in_user = True):
   '''
   Sends your Docassemble user's serialized answers to your Community.lawyer account
 
@@ -39,7 +39,7 @@ def send_answers(variables_to_reject = []):
 
   answers = json.dumps(answers, default=lambda x: str(x))
   metadata = json.dumps(all_variables(special='metadata'), default=lambda x: str(x))
-  logged_in_user = json.dumps(get_user_info_hash())
+  logged_in_user = json.dumps(get_user_info_hash()) if include_logged_in_user else {}
 
   return requests.post(endpoint, data={'docassemble_api_key': docassemble_api_key, 'answers': answers, 'metadata': metadata, 'respondent': logged_in_user})
 
